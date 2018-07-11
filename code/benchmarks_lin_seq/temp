@@ -1,0 +1,24 @@
+Enter p:
+Enter P (space separated, one line, increasing in degree)
+Enter init conditions (space separated, one line)
+
+Ctor: 0.304
+Enter D: bivariate mod took: 0
+bivariate mod took: 0.004
+bivariate mod took: 0.004
+D-th entry: 633
+Time: 0.032
+
+Enter D: bivariate mod took: 0
+bivariate mod took: 0.004
+bivariate mod took: 0.004
+D-th entry: 4296
+Time: 0.036
+
+Enter D: bivariate mod took: 0.004
+bivariate mod took: 0
+bivariate mod took: 0
+D-th entry: 6800
+Time: 0.036
+
+Enter D: 

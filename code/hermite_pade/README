@@ -1,0 +1,42 @@
+This document is meant to provide a quick overview of the provided classes for solving
+Hermite-Pade approximants. Two cases have been implemented: general (hermite_pade_general)
+and algebraic (hermite_pade_algebraic). For both cases, the usage is mostly the same, except 
+the algebraic case takes a single function as input and requires the type to be reduced such
+that the resulting system will have a kernel space of dimension one (one must manually do
+this while the general case will automatically add random blocks to raise the rank).
+
+We first look at hermite_pade_general:
+To initialize, we must give the functions, type, precision, and (optionally) the index of the FFT prime.
+
+Vec<ZZX> fs = ... // some functions
+Vec<long> type = ... // some integers
+long prec = ... // requested precision
+hermite_pade_general hp(fs, type, prec);
+
+If the resulting system does not have a kernel space of dimension one, it will add small
+blocks with random entries to raise the rank up. This happens automatically. At this point, you can
+choose the algorithm used to solve the system by calling:
+
+hp.switch_mode(m); // where 0-DAC, 1-DIXON, 2-NEWTON. By default, m = 0
+
+Now, we are ready to solve the system:
+
+Vec<zz_pX> v1;
+hp.random_solution_mod_p(v); // this will compute the solution modulo the FFT prime we set
+
+Vec<ZZX> v2;
+hp.random_solution(v2); // this will apply lifting and rational reconstruction to find the solution in Z
+
+The algebraic case works in basically the same way, except the initialization:
+
+ZZX f = ... // some function
+Vec<long> type = ... // some integers
+long prec = ... // requested precision
+hermite_pade_algebraic hp(f, type, prec);
+if (hp.NumCols() - hp.Rank() > 1){ // this means that the kernel space has dimension > 1
+	type = hp.find_new_type(); // attempts to find the min type
+	hp = hermite_pade_algebraic(f,type,prec);
+}
+
+The usage afterwards is the same as the general case. For all the functionalities of the classes, see
+ZZ_hermite_pade.h
